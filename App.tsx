@@ -15,8 +15,6 @@ import { colors } from './src/constants/theme';
 // Keep splash screen visible while fonts load
 SplashScreen.preventAutoHideAsync();
 
-// Initialize MapLibre (no token needed for OpenMapTiles/OSM)
-MapLibreGL.setAccessToken(null);
 
 const queryClient = new QueryClient({
   defaultOptions: {
