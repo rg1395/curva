@@ -4,9 +4,9 @@ import MapLibreGL from '@maplibre/maplibre-react-native';
 import { LatLng } from '../../types';
 import { colors } from '../../constants/theme';
 
-const MAPBOX_TOKEN = process.env.EXPO_PUBLIC_MAPBOX_ACCESS_TOKEN ?? '';
-const MAP_STYLE = MAPBOX_TOKEN
-  ? `https://api.mapbox.com/styles/v1/mapbox/dark-v11?access_token=${MAPBOX_TOKEN}`
+const MAPTILER_KEY = process.env.EXPO_PUBLIC_MAPTILER_API_KEY ?? '';
+const MAP_STYLE = MAPTILER_KEY
+  ? `https://api.maptiler.com/maps/dataviz-dark/style.json?key=${MAPTILER_KEY}`
   : 'https://demotiles.maplibre.org/style.json';
 
 interface MiniMapPreviewProps {
