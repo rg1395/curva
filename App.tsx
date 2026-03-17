@@ -1,5 +1,5 @@
 import 'react-native-url-polyfill/auto';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -32,6 +32,7 @@ export default function App() {
     'Outfit-Medium': require('./assets/fonts/Outfit-Medium.ttf'),
     'Outfit-SemiBold': require('./assets/fonts/Outfit-SemiBold.ttf'),
   });
+  const [timedOut, setTimedOut] = useState(false);
 
   useEffect(() => {
     if (fontsLoaded || fontError) {
@@ -39,7 +40,16 @@ export default function App() {
     }
   }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded && !fontError) {
+  // Fallback: hide splash and render app after 3s even if fonts are still loading
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setTimedOut(true);
+      SplashScreen.hideAsync().catch(() => {});
+    }, 3000);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (!fontsLoaded && !fontError && !timedOut) {
     return null;
   }
 
