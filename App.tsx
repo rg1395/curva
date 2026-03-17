@@ -26,8 +26,8 @@ const queryClient = new QueryClient({
 
 export default function App() {
   const [fontsLoaded, fontError] = useFonts({
-    'ClashDisplay-Semibold': require('./assets/fonts/ClashDisplay-Semibold.otf'),
-    'ClashDisplay-Medium': require('./assets/fonts/ClashDisplay-Medium.otf'),
+    'ClashDisplay-Semibold': require('./assets/fonts/ClashDisplay-Semibold.ttf'),
+    'ClashDisplay-Medium': require('./assets/fonts/ClashDisplay-Medium.ttf'),
     'Outfit-Regular': require('./assets/fonts/Outfit-Regular.ttf'),
     'Outfit-Medium': require('./assets/fonts/Outfit-Medium.ttf'),
     'Outfit-SemiBold': require('./assets/fonts/Outfit-SemiBold.ttf'),
