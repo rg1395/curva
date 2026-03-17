@@ -1,0 +1,11 @@
+<resources>
+  <!-- Splash screen -->
+  <color name="splashscreen_background">#08080A</color>
+  <color name="iconBackground">#08080A</color>
+  <!-- App theme: dark motorcycle aesthetic -->
+  <color name="colorPrimary">#FF6B35</color>
+  <color name="colorPrimaryDark">#08080A</color>
+  <color name="colorAccent">#FF6B35</color>
+  <color name="navigationBarColor">#08080A</color>
+  <color name="statusBarColor">#08080A</color>
+</resources>

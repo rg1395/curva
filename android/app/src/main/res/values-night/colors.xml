@@ -1,0 +1,8 @@
+<resources>
+  <!-- Night mode overrides — same as base since app is always dark -->
+  <color name="colorPrimary">#FF6B35</color>
+  <color name="colorPrimaryDark">#08080A</color>
+  <color name="colorAccent">#FF6B35</color>
+  <color name="navigationBarColor">#08080A</color>
+  <color name="statusBarColor">#08080A</color>
+</resources>

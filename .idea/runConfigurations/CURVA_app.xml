@@ -1,0 +1,26 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="CURVA app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="true">
+    <option name="DEPLOY" value="true" />
+    <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
+    <option name="DEPLOY_AS_INSTANT" value="false" />
+    <option name="ARTIFACT_NAME" value="" />
+    <option name="PM_INSTALL_OPTIONS" value="" />
+    <option name="ALL_USERS" value="false" />
+    <option name="ALWAYS_REINSTALL" value="false" />
+    <option name="ALLOW_ASSUME_VERIFIED" value="false" />
+    <option name="TARGET_SELECTION_MODE" value="DEFAULT_EMULATOR" />
+    <option name="CLEAR_APP_STORAGE" value="false" />
+    <module name="curva.app.main" />
+    <option name="PREFERRED_AVD" value="" />
+    <option name="ACTIVITY_EXTRA_FLAGS" value="" />
+    <option name="MODE" value="default_activity" />
+    <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
+    <option name="CLEAR_LOGCAT" value="false" />
+    <option name="SHOW_LOGCAT_FILTER" value="false" />
+    <option name="STORE_LAST_RUN" value="false" />
+    <option name="FILTER_LOGCAT_BEFORE_LAUNCH" value="false" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
