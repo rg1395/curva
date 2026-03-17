@@ -13,7 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { TopRoad } from '../types';
 import { colors, fonts, fontSizes, spacing, radius, touchTarget } from '../constants/theme';
 import { fetchTopRoads } from '../api/surface';
-import { IconArrowLeft, IconTrophy, IconCurve, IconMoto, IconStar } from '../components/icons';
+import { IconArrowLeft, IconTrophy, IconCurve, IconMoto } from '../components/icons';
 
 const SURFACE_LABELS: Record<string, string> = {
   excellent: 'Ottimo', good: 'Buono', fair: 'Discreto', bad: 'Dissestato', unknown: '—',

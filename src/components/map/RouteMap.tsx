@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import MapLibreGL from '@maplibre/maplibre-react-native';
 import { LatLng, Route, SegmentType } from '../../types';
 import { colors } from '../../constants/theme';
+import { MapErrorBoundary } from './MapErrorBoundary';
 
 const MAPTILER_KEY = process.env.EXPO_PUBLIC_MAPTILER_API_KEY ?? '';
 const MAP_STYLE = `https://api.maptiler.com/maps/dataviz-dark/style.json?key=${MAPTILER_KEY}`;
@@ -43,6 +44,7 @@ export function RouteMap({
   }), [bounds]);
 
   return (
+    <MapErrorBoundary height={height}>
     <View style={[styles.container, { height }]}>
       <MapLibreGL.MapView
         style={styles.map}
@@ -158,6 +160,7 @@ export function RouteMap({
         </View>
       )}
     </View>
+    </MapErrorBoundary>
   );
 }
 

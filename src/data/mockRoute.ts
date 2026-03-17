@@ -1,0 +1,97 @@
+import { Route } from '../types';
+
+/** Demo route used when API keys are not configured. */
+export const MOCK_ROUTE: Route = {
+  id: 'demo-1',
+  name: 'Passo del Maloja → Sils Maria',
+  origin: {
+    name: 'Passo del Maloja',
+    fullAddress: 'Passo del Maloja, Svizzera',
+    coordinates: { lat: 46.4012, lng: 9.6948 },
+  },
+  destination: {
+    name: 'Sils Maria',
+    fullAddress: 'Sils Maria, Svizzera',
+    coordinates: { lat: 46.4259, lng: 9.7583 },
+  },
+  geometry: [
+    { lat: 46.4012, lng: 9.6948 },
+    { lat: 46.4055, lng: 9.7010 },
+    { lat: 46.4090, lng: 9.7090 },
+    { lat: 46.4110, lng: 9.7150 },
+    { lat: 46.4140, lng: 9.7220 },
+    { lat: 46.4170, lng: 9.7310 },
+    { lat: 46.4190, lng: 9.7390 },
+    { lat: 46.4210, lng: 9.7460 },
+    { lat: 46.4235, lng: 9.7530 },
+    { lat: 46.4259, lng: 9.7583 },
+  ],
+  segments: [
+    {
+      points: [
+        { lat: 46.4012, lng: 9.6948 },
+        { lat: 46.4090, lng: 9.7090 },
+        { lat: 46.4140, lng: 9.7220 },
+      ],
+      distanceKm: 3.2,
+      type: 'curvy',
+      sinuosityIndex: 1.85,
+      roadClass: 'SECONDARY',
+      roadEnvironment: 'OTHER',
+      surface: 'asphalt',
+      surfaceQuality: 'good',
+      surfaceConfidence: 0.8,
+      elevationGainM: 120,
+    },
+    {
+      points: [
+        { lat: 46.4140, lng: 9.7220 },
+        { lat: 46.4190, lng: 9.7390 },
+        { lat: 46.4259, lng: 9.7583 },
+      ],
+      distanceKm: 2.8,
+      type: 'scenic',
+      sinuosityIndex: 1.4,
+      roadClass: 'SECONDARY',
+      roadEnvironment: 'OTHER',
+      surface: 'asphalt',
+      surfaceQuality: 'excellent',
+      surfaceConfidence: 0.9,
+      elevationGainM: 60,
+    },
+  ],
+  instructions: [
+    { text: 'Parti da Passo del Maloja verso nord', distanceM: 1200, sign: 0, interval: [0, 2] },
+    { text: 'Svolta a destra verso Sils', distanceM: 800, sign: 2, interval: [2, 5] },
+    { text: 'Continua lungo il lago', distanceM: 2000, sign: 0, interval: [5, 8] },
+    { text: 'Sei arrivato a Sils Maria', distanceM: 0, sign: 4, interval: [8, 9] },
+  ],
+  distanceKm: 6.0,
+  durationMin: 18,
+  curvesCount: 24,
+  elevationGainM: 180,
+  surfaceQualityAvg: 82,
+  funScore: 8.4,
+  funScoreBreakdown: {
+    sinuosity: 0.88,
+    surface: 0.82,
+    scenic: 0.90,
+    lowTraffic: 0.75,
+    elevation: 0.70,
+    total: 8.4,
+  },
+  isLoop: false,
+};
+
+export const MOCK_TOP_ROADS = [
+  { id: '1', name: 'Stelvio', region: 'Alto Adige', funScore: 9.8, distanceKm: 24.3, curvesCount: 48, surfaceQuality: 'excellent' as const, passagesCount: 1240 },
+  { id: '2', name: 'Gavia', region: 'Lombardia', funScore: 9.5, distanceKm: 17.6, curvesCount: 38, surfaceQuality: 'good' as const, passagesCount: 890 },
+  { id: '3', name: 'Mortirolo', region: 'Lombardia', funScore: 9.3, distanceKm: 12.4, curvesCount: 33, surfaceQuality: 'good' as const, passagesCount: 720 },
+  { id: '4', name: 'Passo Gardena', region: 'Alto Adige', funScore: 9.1, distanceKm: 10.8, curvesCount: 28, surfaceQuality: 'excellent' as const, passagesCount: 650 },
+  { id: '5', name: 'Tre Cime di Lavaredo', region: 'Veneto', funScore: 9.0, distanceKm: 8.2, curvesCount: 22, surfaceQuality: 'good' as const, passagesCount: 580 },
+  { id: '6', name: 'Passo Falzarego', region: 'Veneto', funScore: 8.8, distanceKm: 14.5, curvesCount: 31, surfaceQuality: 'good' as const, passagesCount: 510 },
+  { id: '7', name: 'Passo Pordoi', region: 'Trentino', funScore: 8.7, distanceKm: 11.2, curvesCount: 27, surfaceQuality: 'excellent' as const, passagesCount: 490 },
+  { id: '8', name: 'Passo Tonale', region: 'Trentino', funScore: 8.5, distanceKm: 9.6, curvesCount: 24, surfaceQuality: 'good' as const, passagesCount: 430 },
+  { id: '9', name: 'Colle dell\'Agnello', region: 'Piemonte', funScore: 8.4, distanceKm: 13.1, curvesCount: 29, surfaceQuality: 'fair' as const, passagesCount: 380 },
+  { id: '10', name: 'Passo di Crocedomini', region: 'Lombardia', funScore: 8.2, distanceKm: 7.8, curvesCount: 20, surfaceQuality: 'good' as const, passagesCount: 310 },
+];
