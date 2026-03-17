@@ -11,8 +11,6 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Svg, { Polyline } from 'react-native-svg';
-import * as Device from 'expo-device';
-
 import { RootStackParamList } from '../types';
 import { colors, fonts, fontSizes, spacing, radius, touchTarget } from '../constants/theme';
 import { startAccelerometer, stopAccelerometer, getWaveformData } from '../utils/accelerometer';
