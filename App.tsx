@@ -1,26 +1,23 @@
 import 'react-native-url-polyfill/auto';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import MapLibreGL from '@maplibre/maplibre-react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { RootNavigator } from './src/navigation/RootNavigator';
 import { colors } from './src/constants/theme';
 
-// Keep splash screen visible while fonts load
 SplashScreen.preventAutoHideAsync();
-
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 2,
-      staleTime: 5 * 60 * 1000, // 5 minutes
+      staleTime: 5 * 60 * 1000,
     },
   },
 });
@@ -34,9 +31,9 @@ export default function App() {
     'Outfit-SemiBold': require('./assets/fonts/Outfit-SemiBold.ttf'),
   });
 
-  const onLayoutRootView = useCallback(async () => {
+  useEffect(() => {
     if (fontsLoaded || fontError) {
-      await SplashScreen.hideAsync();
+      SplashScreen.hideAsync();
     }
   }, [fontsLoaded, fontError]);
 
@@ -49,9 +46,7 @@ export default function App() {
       <GestureHandlerRootView style={styles.root}>
         <SafeAreaProvider>
           <StatusBar style="light" backgroundColor={colors.bg} />
-          <View style={styles.root} onLayout={onLayoutRootView}>
-            <RootNavigator />
-          </View>
+          <RootNavigator />
         </SafeAreaProvider>
       </GestureHandlerRootView>
     </QueryClientProvider>
