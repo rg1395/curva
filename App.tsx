@@ -6,12 +6,14 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import MapLibreGL from '@maplibre/maplibre-react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { RootNavigator } from './src/navigation/RootNavigator';
 import { colors } from './src/constants/theme';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
+MapLibreGL.setAccessToken(null);
 
 const queryClient = new QueryClient({
   defaultOptions: {
