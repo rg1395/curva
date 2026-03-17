@@ -17,7 +17,8 @@ import * as Sharing from 'expo-sharing';
 import { RootStackParamList } from '../types';
 import { colors, fonts, fontSizes, spacing, radius } from '../constants/theme';
 import { FunScoreBar } from '../components/ui/FunScoreBar';
-import { IconClose, IconCurve } from '../components/icons';
+import { CurvaLogoMark } from '../components/ui/CurvaLogo';
+import { IconClose } from '../components/icons';
 
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 type ScreenRoute = RouteProp<RootStackParamList, 'ShareableCard'>;
@@ -88,7 +89,7 @@ export function ShareableCardScreen() {
             {/* Card header */}
             <View style={styles.cardHeader}>
               <View style={styles.logoRow}>
-                <IconCurve size={20} color={colors.accent} />
+                <CurvaLogoMark size={22} />
                 <Text style={styles.logoText}>CURVA</Text>
               </View>
               <Text style={styles.cardTagline}>Il mio giro su CURVA</Text>

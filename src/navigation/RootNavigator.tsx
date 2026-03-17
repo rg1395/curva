@@ -11,6 +11,7 @@ import { RideRecordingScreen } from '../screens/RideRecordingScreen';
 import { PostRideRatingScreen } from '../screens/PostRideRatingScreen';
 import { ShareableCardScreen } from '../screens/ShareableCardScreen';
 import { TopRoadsScreen } from '../screens/TopRoadsScreen';
+import { SavedRoutesScreen } from '../screens/SavedRoutesScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -47,6 +48,7 @@ export function RootNavigator() {
           }}
         />
         <Stack.Screen name="TopRoads" component={TopRoadsScreen} />
+        <Stack.Screen name="SavedRoutes" component={SavedRoutesScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

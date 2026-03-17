@@ -135,4 +135,5 @@ export type RootStackParamList = {
   PostRideRating: { route: Route; rideId: string };
   ShareableCard: { route: Route; rideId?: string };
   TopRoads: undefined;
+  SavedRoutes: undefined;
 };

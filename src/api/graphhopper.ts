@@ -139,6 +139,8 @@ function buildSegments(
 
     const segType = classifySegType(si, roadEnvironment);
 
+    const { quality: surfaceQuality, confidence: surfaceConfidence } = surfaceStringToQuality(surface);
+
     segments.push({
       points: chunk,
       distanceKm,
@@ -147,8 +149,8 @@ function buildSegments(
       roadClass,
       roadEnvironment,
       surface,
-      surfaceQuality: 'unknown', // will be filled from Supabase
-      surfaceConfidence: 0,
+      surfaceQuality,
+      surfaceConfidence,
       elevationGainM: 0,
     });
 
@@ -167,6 +169,23 @@ function getDetailAt(
     if (index >= from && index < to) return value;
   }
   return undefined;
+}
+
+function surfaceStringToQuality(surface: string): { quality: SurfaceQuality; confidence: number } {
+  const s = surface.toLowerCase().trim();
+  if (['asphalt', 'paved', 'concrete', 'concrete:plates', 'concrete:lanes'].includes(s)) {
+    return { quality: 'good', confidence: 0.7 };
+  }
+  if (['cobblestone:flattened', 'sett', 'paving_stones', 'paving_stones:30', 'gravel', 'fine_gravel'].includes(s)) {
+    return { quality: 'fair', confidence: 0.65 };
+  }
+  if (['cobblestone', 'unhewn_cobblestone'].includes(s)) {
+    return { quality: 'fair', confidence: 0.7 };
+  }
+  if (['unpaved', 'dirt', 'grass', 'ground', 'sand', 'mud', 'compacted'].includes(s)) {
+    return { quality: 'bad', confidence: 0.8 };
+  }
+  return { quality: 'unknown', confidence: 0 };
 }
 
 function classifySegType(si: number, roadEnvironment: string): SegmentType {

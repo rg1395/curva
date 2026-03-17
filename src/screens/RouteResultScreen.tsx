@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -17,9 +17,10 @@ import { FunScoreBar } from '../components/ui/FunScoreBar';
 import { SurfaceQualityBar } from '../components/ui/SurfaceQualityBar';
 import { StatCard } from '../components/ui/StatCard';
 import { Button } from '../components/ui/Button';
+import { useRouteStore } from '../store/routeStore';
 import {
   IconArrowLeft, IconShare, IconHelmet, IconCurve,
-  IconMountain, IconTimer, IconMoto,
+  IconMountain, IconTimer, IconMoto, IconHeart,
 } from '../components/icons';
 
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
@@ -53,10 +54,32 @@ const SURFACE_LABELS = {
   unknown: 'Nessun dato',
 };
 
+function getFunScoreNudge(score: number): string {
+  if (score >= 9) return 'Percorso eccezionale — tra i migliori d\'Italia';
+  if (score >= 8) return 'Ottimo percorso — curve continue, poco traffico';
+  if (score >= 7) return 'Percorso divertente — consigliato per il weekend';
+  if (score >= 6) return 'Buon percorso — godibile per una gita';
+  return 'Percorso nella media';
+}
+
 export function RouteResultScreen() {
   const navigation = useNavigation<NavProp>();
   const { params } = useRoute<ScreenRoute>();
   const { route } = params;
+  const { savedRoutes, saveRoute, removeSavedRoute } = useRouteStore();
+
+  const savedIndex = savedRoutes.findIndex(r => r.name === route.name && r.distanceKm === route.distanceKm);
+  const isSaved = savedIndex >= 0;
+  const [saved, setSaved] = useState(isSaved);
+
+  const handleToggleSave = () => {
+    if (saved) {
+      if (savedIndex >= 0) removeSavedRoute(savedIndex);
+    } else {
+      saveRoute(route);
+    }
+    setSaved(s => !s);
+  };
 
   const formatDuration = (min: number) => {
     const h = Math.floor(min / 60);
@@ -77,12 +100,22 @@ export function RouteResultScreen() {
           <IconArrowLeft size={24} color={colors.text} />
         </TouchableOpacity>
         <Text style={styles.headerTitle} numberOfLines={1}>{route.name}</Text>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.navigate('ShareableCard', { route })}
-        >
-          <IconShare size={24} color={colors.text} />
-        </TouchableOpacity>
+        <View style={styles.headerRight}>
+          <TouchableOpacity
+            style={styles.iconBtn}
+            onPress={handleToggleSave}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          >
+            <IconHeart size={22} color={saved ? colors.accent : colors.muted} filled={saved} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.iconBtn}
+            onPress={() => navigation.navigate('ShareableCard', { route })}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          >
+            <IconShare size={22} color={colors.text} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView
@@ -91,34 +124,35 @@ export function RouteResultScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Map */}
-        <RouteMap route={route} height={240} interactive={false} />
+        <RouteMap route={route} height={230} interactive={false} />
 
         {/* Fun Score */}
         <View style={styles.section}>
           <FunScoreBar score={route.funScore} showLabel />
+          <Text style={styles.nudgeText}>{getFunScoreNudge(route.funScore)}</Text>
         </View>
 
         {/* Stats grid */}
         <View style={styles.statsGrid}>
           <StatCard
-            icon={<IconMoto size={28} color={colors.muted} />}
+            icon={<IconMoto size={26} color={colors.muted} />}
             label="Distanza"
             value={`${route.distanceKm}`}
             sub="km"
           />
           <StatCard
-            icon={<IconTimer size={28} color={colors.muted} />}
+            icon={<IconTimer size={26} color={colors.muted} />}
             label="Tempo"
             value={formatDuration(route.durationMin)}
           />
           <StatCard
-            icon={<IconCurve size={28} color={colors.green} />}
+            icon={<IconCurve size={26} color={colors.green} />}
             label="Curve"
             value={`${route.curvesCount}`}
             highlight
           />
           <StatCard
-            icon={<IconMountain size={28} color={colors.blue} />}
+            icon={<IconMountain size={26} color={colors.blue} />}
             label="Dislivello"
             value={`${route.elevationGainM}`}
             sub="m"
@@ -134,17 +168,17 @@ export function RouteResultScreen() {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Dettaglio Fun Score</Text>
           <View style={styles.breakdownList}>
-            <BreakdownRow label="Sinuosità" value={route.funScoreBreakdown.sinuosity} weight="40%" />
-            <BreakdownRow label="Asfalto" value={route.funScoreBreakdown.surface} weight="25%" />
-            <BreakdownRow label="Panoramicità" value={route.funScoreBreakdown.scenic} weight="15%" />
-            <BreakdownRow label="Traffico basso" value={route.funScoreBreakdown.lowTraffic} weight="10%" />
-            <BreakdownRow label="Dislivello" value={route.funScoreBreakdown.elevation} weight="10%" />
+            <BreakdownRow label="Sinuosità" value={route.funScoreBreakdown.sinuosity} weight="40%" color={colors.green} />
+            <BreakdownRow label="Asfalto" value={route.funScoreBreakdown.surface} weight="25%" color={colors.accent} />
+            <BreakdownRow label="Panoramicità" value={route.funScoreBreakdown.scenic} weight="15%" color={colors.blue} />
+            <BreakdownRow label="Traffico basso" value={route.funScoreBreakdown.lowTraffic} weight="10%" color={colors.yellow} />
+            <BreakdownRow label="Dislivello" value={route.funScoreBreakdown.elevation} weight="10%" color={colors.blue} />
           </View>
         </View>
 
         {/* Segment timeline */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Segmenti</Text>
+          <Text style={styles.sectionTitle}>Segmenti ({route.segments.length})</Text>
           {route.segments.map((seg, i) => (
             <SegmentRow key={i} segment={seg} index={i} />
           ))}
@@ -159,7 +193,7 @@ export function RouteResultScreen() {
           style={styles.helmetBtn}
           onPress={() => navigation.navigate('DriveMode', { route })}
         >
-          <IconHelmet size={28} color={colors.text} />
+          <IconHelmet size={26} color={colors.text} />
         </TouchableOpacity>
         <View style={{ flex: 1 }}>
           <Button
@@ -172,16 +206,20 @@ export function RouteResultScreen() {
   );
 }
 
-function BreakdownRow({ label, value, weight }: { label: string; value: number; weight: string }) {
+function BreakdownRow({
+  label, value, weight, color,
+}: {
+  label: string; value: number; weight: string; color: string;
+}) {
   const percentage = value * 100;
   return (
     <View style={styles.breakdownRow}>
       <Text style={styles.breakdownLabel}>{label}</Text>
       <Text style={styles.breakdownWeight}>{weight}</Text>
       <View style={styles.breakdownTrack}>
-        <View style={[styles.breakdownFill, { width: `${percentage}%` }]} />
+        <View style={[styles.breakdownFill, { width: `${percentage}%`, backgroundColor: color }]} />
       </View>
-      <Text style={styles.breakdownValue}>{(value * 10).toFixed(1)}</Text>
+      <Text style={[styles.breakdownValue, { color }]}>{(value * 10).toFixed(1)}</Text>
     </View>
   );
 }
@@ -208,9 +246,6 @@ function SegmentRow({ segment, index }: { segment: RouteSegment; index: number }
           <Text style={styles.segmentMetaText}>·</Text>
           <View style={[styles.surfaceDot, { backgroundColor: surfaceColor }]} />
           <Text style={[styles.segmentMetaText, { color: surfaceColor }]}>{surfaceLabel}</Text>
-          {segment.surfaceConfidence < 0.3 && (
-            <Text style={styles.noDataBadge}>nessun dato</Text>
-          )}
         </View>
       </View>
     </View>
@@ -226,8 +261,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.md,
-    gap: spacing.md,
+    paddingVertical: spacing.sm,
+    gap: spacing.sm,
   },
   iconBtn: {
     width: touchTarget.action,
@@ -242,13 +277,17 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.base,
     textAlign: 'center',
   },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   scroll: { flex: 1 },
   scrollContent: {
     padding: spacing.xl,
     gap: spacing.xl,
   },
   section: {
-    gap: spacing.md,
+    gap: spacing.sm,
   },
   sectionTitle: {
     color: colors.muted,
@@ -256,6 +295,13 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.sm,
     textTransform: 'uppercase',
     letterSpacing: 1,
+    marginBottom: spacing.xs,
+  },
+  nudgeText: {
+    color: colors.muted,
+    fontFamily: fonts.body,
+    fontSize: fontSizes.sm,
+    fontStyle: 'italic',
   },
   statsGrid: {
     flexDirection: 'row',
@@ -293,11 +339,9 @@ const styles = StyleSheet.create({
   },
   breakdownFill: {
     height: '100%',
-    backgroundColor: colors.accent,
     borderRadius: radius.full,
   },
   breakdownValue: {
-    color: colors.accent,
     fontFamily: fonts.display,
     fontSize: fontSizes.md,
     width: 32,
@@ -355,13 +399,6 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-  },
-  noDataBadge: {
-    color: colors.muted,
-    fontFamily: fonts.body,
-    fontSize: fontSizes.xs,
-    opacity: 0.6,
-    fontStyle: 'italic',
   },
   // Bottom bar
   bottomBar: {
